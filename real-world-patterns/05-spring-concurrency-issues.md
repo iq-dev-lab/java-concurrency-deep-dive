@@ -455,11 +455,11 @@ class AsyncThreadExplosionTest {
 ```
 @Async Executor 종류별 특성:
 
-Executor 종류              | 동시 실행 | 스레드 생성   | OOM 위험
+Executor 종류              | 동시 실행  | 스레드 생성     | OOM 위험
 ──────────────────────────┼──────────┼──────────────┼─────────
-SimpleAsyncTaskExecutor   | 무제한    | 매번 새 생성  | 높음! ⚠️
-ThreadPoolTaskExecutor    | 풀 크기   | 풀에서 재사용 | 낮음
-VT (Spring Boot 3.2+)     | 무제한    | 매번 새 VT    | 낮음 (힙)
+SimpleAsyncTaskExecutor   | 무제한     | 매번 새 생성    | 높음! ⚠️
+ThreadPoolTaskExecutor    | 풀 크기    | 풀에서 재사용   | 낮음
+VT (Spring Boot 3.2+)     | 무제한     | 매번 새 VT     | 낮음 (힙)
 
 @Transactional 주의 수준:
   자가 호출(self-invocation): ⚠️ 트랜잭션 무시

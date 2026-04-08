@@ -415,13 +415,13 @@ public class StripingBenchmark {
 ```
 Lock Contention 개선 전후 처리량 비교 (16스레드):
 
-방법                          | 처리량      | 비고
+방법                          | 처리량       | 비고
 ─────────────────────────────┼────────────┼─────────────────────────────
-synchronized(전체 메서드)      | 10,000/s   | 완전 직렬화
+synchronized(전체 메서드)       | 10,000/s   | 완전 직렬화
 synchronized(최소 범위)        | 50,000/s   | 5배 향상
-Lock Striping(16개)            | 140,000/s  | 14배 향상
-ConcurrentHashMap              | 200,000/s  | 20배 향상 (버킷 CAS)
-ReadWriteLock(읽기 90%)        | 180,000/s  | 18배 향상
+Lock Striping(16개)          | 140,000/s  | 14배 향상
+ConcurrentHashMap            | 200,000/s  | 20배 향상 (버킷 CAS)
+ReadWriteLock(읽기 90%)       | 180,000/s  | 18배 향상
 
 JFR 오버헤드:
   기본 설정 (default): ~1% CPU

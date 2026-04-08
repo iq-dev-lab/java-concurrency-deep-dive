@@ -375,16 +375,16 @@ public class ScopedVsThreadLocal {
 ```
 ThreadLocal vs ScopedValue 비교:
 
-특성                  | ThreadLocal              | ScopedValue
+특성                  | ThreadLocal             | ScopedValue
 ─────────────────────┼─────────────────────────┼─────────────────────────────
-VT당 메모리           | ThreadLocalMap 복사       | 스냅샷 배열 참조 (복사 없음)
-100만 VT + 10 키      | ~수십 MB (맵 복사)       | ~수 MB (스냅샷 배열 참조)
-읽기 성능            | 해시 조회 O(1)            | 배열 스캔 O(n), n=바인딩 수
-쓰기                 | set/get/remove           | where().run() (스코프)
-가변성               | 가변                     | 불변 (스코프 내)
-자동 정리            | finally remove() 필요     | run() 종료 시 자동
-자식 VT 전파         | InheritableThreadLocal    | StructuredTaskScope 자동
-Spring 지원          | 광범위 (SecurityContextHolder, MDC)| 초기 단계 (Spring 6.x)
+VT당 메모리            | ThreadLocalMap 복사       | 스냅샷 배열 참조 (복사 없음)
+100만 VT + 10 키      | ~수십 MB (맵 복사)         | ~수 MB (스냅샷 배열 참조)
+읽기 성능              | 해시 조회 O(1)             | 배열 스캔 O(n), n=바인딩 수
+쓰기                  | set/get/remove           | where().run() (스코프)
+가변성                | 가변                      | 불변 (스코프 내)
+자동 정리              | finally remove() 필요     | run() 종료 시 자동
+자식 VT 전파           | InheritableThreadLocal   | StructuredTaskScope 자동
+Spring 지원           | 광범위 (SecurityContextHolder, MDC)| 초기 단계 (Spring 6.x)
 
 성능 비교 (1000만 get() 호출):
   ThreadLocal.get():   ~2ns (해시 조회)

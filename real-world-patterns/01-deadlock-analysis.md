@@ -350,13 +350,13 @@ public class DeadlockPrevention {
 ```
 데드락 예방 전략별 특성:
 
-전략               | 오버헤드 | 복잡성 | 보장 수준
+전략              | 오버헤드  | 복잡성   | 보장 수준
 ─────────────────┼─────────┼────────┼───────────────────────
-락 순서 통일      | 없음     | 중간   | 순환 대기 제거 → 데드락 없음
-tryLock + 백오프  | 낮음     | 높음   | 라이브락 가능 (백오프 필요)
-단일 글로벌 락    | 중간     | 낮음   | 완전 예방, 처리량 저하
-락 없는 설계      | 없음     | 높음   | 완전 예방 (CAS 기반)
-타임아웃 tryLock  | 낮음     | 중간   | 데드락 회복 가능
+락 순서 통일        | 없음     | 중간    | 순환 대기 제거 → 데드락 없음
+tryLock + 백오프   | 낮음     | 높음    | 라이브락 가능 (백오프 필요)
+단일 글로벌 락      | 중간      | 낮음    | 완전 예방, 처리량 저하
+락 없는 설계        | 없음     | 높음    | 완전 예방 (CAS 기반)
+타임아웃 tryLock   | 낮음      | 중간    | 데드락 회복 가능
 
 ThreadMXBean 감지 비용:
   findDeadlockedThreads(): ~수 μs~수 ms (스레드 수에 비례)
@@ -514,6 +514,6 @@ while (!acquired) {
 
 <div align="center">
 
-**[⬅️ 이전: Ch6 Spring Boot + Virtual Thread](../virtual-threads/06-spring-boot-virtual-thread.md)** | **[홈으로 🏠](../README.md)** | **[다음: 라이브락과 기아 ➡️](./02-livelock-starvation.md)**
+**[홈으로 🏠](../README.md)** | **[다음: 라이브락과 기아 ➡️](./02-livelock-starvation.md)**
 
 </div>

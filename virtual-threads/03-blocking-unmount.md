@@ -213,14 +213,14 @@ void sleepNanos(long nanos) throws InterruptedException {
 JDK 21 Poller 구조:
 
 ┌─────────────────────────────────────────────────────────────┐
-│  Poller (OS별 구현)                                         │
+│  Poller (OS별 구현)                                           │
 │                                                             │
 │  Linux:   epoll_wait()                                      │
 │  macOS:   kqueue()                                          │
 │  Windows: I/O Completion Ports (IOCP)                       │
 │                                                             │
-│  등록: fd(파일 디스크립터) + VT 매핑                         │
-│  이벤트 루프: fd 이벤트 감지 → 해당 VT unpark              │
+│  등록: fd(파일 디스크립터) + VT 매핑                              │
+│  이벤트 루프: fd 이벤트 감지 → 해당 VT unpark                      │
 └─────────────────────────────────────────────────────────────┘
 
 Socket.read() 흐름:
@@ -395,19 +395,19 @@ VT 지원 API vs 미지원 비교:
 
 API 종류                        | Unmount | 비고
 ───────────────────────────────┼─────────┼─────────────────────────────
-Thread.sleep(n)                 | ✅       | parkNanos 사용
-Object.wait()                  | ✅       | JVM 모니터 해제 후 park
-LockSupport.park()             | ✅       | 기본 park
-Condition.await()              | ✅       | AQS park
-BlockingQueue.take/put         | ✅       | AQS park
-ReentrantLock.lock() 대기      | ✅       | AQS park
-Semaphore.acquire()            | ✅       | AQS park
-CountDownLatch.await()         | ✅       | AQS park
-Socket.read/write              | ✅       | JDK 21 NIO 재작성
-HttpClient.send() (Java 11+)   | ✅       | NIO 기반
-SocketChannel.read/write       | ✅       | NIO (기존에도 호환)
-synchronized 내 park           | ❌ Pinning| JVM 모니터 구현 제약
-JNI 실행 중                    | ❌ Pinning| 네이티브 코드
+Thread.sleep(n)                | ✅      | parkNanos 사용
+Object.wait()                  | ✅      | JVM 모니터 해제 후 park
+LockSupport.park()             | ✅      | 기본 park
+Condition.await()              | ✅      | AQS park
+BlockingQueue.take/put         | ✅      | AQS park
+ReentrantLock.lock() 대기       | ✅      | AQS park
+Semaphore.acquire()            | ✅      | AQS park
+CountDownLatch.await()         | ✅      | AQS park
+Socket.read/write              | ✅      | JDK 21 NIO 재작성
+HttpClient.send() (Java 11+)   | ✅      | NIO 기반
+SocketChannel.read/write       | ✅      | NIO (기존에도 호환)
+synchronized 내 park            | ❌ Pinning| JVM 모니터 구현 제약
+JNI 실행 중                      | ❌ Pinning| 네이티브 코드
 FileInputStream.read()         | ⚠️ 일부   | 플랫폼/버전별 상이
 
 처리량 시나리오 (100ms I/O, 1000 요청):

@@ -251,12 +251,12 @@ public class StarvationDemo {
 ```
 Non-Fair vs Fair Lock 비교 (8스레드 JMH):
 
-지표                | Non-Fair    | Fair       | 비고
+지표                | Non-Fair   | Fair       | 비고
 ───────────────────┼────────────┼────────────┼────────────────────
-처리량 (ops/ms)     | 3,000,000  | 600,000    | Non-Fair가 ~5배 빠름
-지연시간 분포        | 편차 큼     | 균일        | Fair가 p99 낮음
-기아 가능성          | 있음       | 없음       | Fair가 안전
-컨텍스트 스위칭      | 적음       | 많음       | park/unpark 더 빈번
+처리량 (ops/ms)      | 3,000,000  | 600,000    | Non-Fair가 ~5배 빠름
+지연시간 분포          | 편차 큼     | 균일        | Fair가 p99 낮음
+기아 가능성           | 있음        | 없음        | Fair가 안전
+컨텍스트 스위칭        | 적음        | 많음        | park/unpark 더 빈번
 ```
 
 ---

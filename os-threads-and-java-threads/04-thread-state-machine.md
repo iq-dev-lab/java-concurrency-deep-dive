@@ -95,17 +95,17 @@ Java Thread 상태 (Thread.State enum):
                     ┌─────────────────────┐
                     │                     │◀──────────────────────────────┐
                     │      RUNNABLE       │   notify() / notifyAll()      │
-                    │  (실행 중 또는      │   unpark()                    │
-                    │   실행 대기 중)     │   interrupt()                 │
-                    └──┬────────┬─────────┘   timeout 만료               │
-                       │        │              I/O 완료                  │
-          synchronized │        │ Object.wait()                          │
-          락 획득 실패  │        │ LockSupport.park()                     │
-                       │        │ Thread.join()                          │
-                       ▼        ▼                                        │
-             ┌──────────┐  ┌──────────────────────┐                     │
-             │          │  │                      │                     │
-             │ BLOCKED  │  │      WAITING         │────────────────────▶│
+                    │  (실행 중 또는         │   unpark()                    │
+                    │   실행 대기 중)        │   interrupt()                 │
+                    └──┬────────┬─────────┘   timeout 만료                 │
+                       │        │              I/O 완료                    │
+          synchronized │        │ Object.wait()                           │
+          락 획득 실패    │        │ LockSupport.park()                      │
+                       │        │ Thread.join()                           │
+                       ▼        ▼                                         │
+             ┌──────────┐  ┌──────────────────────┐                       │
+             │          │  │                      │                       │
+             │ BLOCKED  │  │      WAITING         │────────────────────▶  │
              │          │  │                      │
              └──────────┘  └──────────────────────┘
              락 획득 시         ↕ wait(ms), sleep(ms),
@@ -412,23 +412,23 @@ public class SleepVsWait {
 ```
 대기 메커니즘별 특성 비교:
 
-메커니즘              | 상태           | 락 반납 | 깨우기 방법          | 사용처
+메커니즘               | 상태           | 락 반납  | 깨우기 방법           | 사용처
 ─────────────────────┼───────────────┼────────┼────────────────────┼──────────────────
-Thread.sleep(ms)     | TIMED_WAITING | ❌      | timeout / interrupt | 단순 지연
-Object.wait()        | WAITING       | ✅      | notify/interrupt    | 모니터 기반 협력
-Object.wait(ms)      | TIMED_WAITING | ✅      | timeout/notify/int  | 타임아웃 wait
-LockSupport.park()   | WAITING       | N/A     | unpark/interrupt    | AQS, 커스텀 동기화
-LockSupport.parkNanos| TIMED_WAITING | N/A     | timeout/unpark/int  | 정밀 타임아웃
+Thread.sleep(ms)     | TIMED_WAITING | ❌     | timeout / interrupt| 단순 지연
+Object.wait()        | WAITING       | ✅     | notify/interrupt   | 모니터 기반 협력
+Object.wait(ms)      | TIMED_WAITING | ✅     | timeout/notify/int | 타임아웃 wait
+LockSupport.park()   | WAITING       | N/A    | unpark/interrupt   | AQS, 커스텀 동기화
+LockSupport.parkNanos| TIMED_WAITING | N/A    | timeout/unpark/int | 정밀 타임아웃
 
 상태별 CPU 영향:
 
-상태           | CPU 소비 | OS 스케줄러 관리
+상태           | CPU 소비  | OS 스케줄러 관리
 ──────────────┼──────────┼───────────────────────
-RUNNABLE       | 가능     | 실행 큐에 포함
-BLOCKED        | ❌       | 락 해제 시 깨어남
-WAITING        | ❌       | 신호 수신 시 깨어남
-TIMED_WAITING  | ❌       | 타이머 만료 시 깨어남
-TERMINATED     | ❌       | 관리 대상 아님
+RUNNABLE      | 가능      | 실행 큐에 포함
+BLOCKED       | ❌       | 락 해제 시 깨어남
+WAITING       | ❌       | 신호 수신 시 깨어남
+TIMED_WAITING | ❌       | 타이머 만료 시 깨어남
+TERMINATED    | ❌       | 관리 대상 아님
 ```
 
 ---

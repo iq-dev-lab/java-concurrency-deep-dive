@@ -389,14 +389,14 @@ public class MultiHookTest {
 
 종료 원인                        | ShutdownHook | 비고
 ───────────────────────────────┼──────────────┼────────────────────────────
-main 스레드 정상 종료             | ✅           | non-daemon 모두 종료 후
-System.exit(0)                  | ✅           | 즉시 Hook 실행
-Ctrl+C (SIGINT)                 | ✅           | Hook 완료 대기
-SIGTERM                         | ✅           | Hook 완료 대기
-SIGKILL (-9)                    | ❌           | OS가 즉시 종료
-Runtime.halt()                  | ❌           | 강제 종료
-OOM (심각)                      | 미보장        | JVM 상태에 따라 다름
-StackOverflow (심각)             | 미보장        | JVM 상태에 따라 다름
+main 스레드 정상 종료              | ✅           | non-daemon 모두 종료 후
+System.exit(0)                 | ✅           | 즉시 Hook 실행
+Ctrl+C (SIGINT)                | ✅           | Hook 완료 대기
+SIGTERM                        | ✅           | Hook 완료 대기
+SIGKILL (-9)                   | ❌           | OS가 즉시 종료
+Runtime.halt()                 | ❌           | 강제 종료
+OOM (심각)                      | 미보장         | JVM 상태에 따라 다름
+StackOverflow (심각)            | 미보장         | JVM 상태에 따라 다름
 
 Kubernetes terminationGracePeriodSeconds 기준:
 

@@ -89,18 +89,18 @@ System.out.println("풀 크기: " + executor.getPoolSize());
               현재 스레드 수 < corePoolSize?
                ┌──────YES──────┐  ┌──NO──────────────────────┐
                ▼               │  ▼                          │
-        새 스레드 생성           │  큐(workQueue)에 넣기 시도   │
-        작업 즉시 실행           │  ┌────성공────┐ ┌──실패──┐  │
-        (Core Thread)          │  │            │ │        │  │
-                               │  │ 큐에 저장   │ │현재 스레드│ │
-                               │  │ 대기        │ │< maxPool?│ │
-                               │  └────────────┘ └─┬────┬──┘  │
+        새 스레드 생성            │  큐(workQueue)에 넣기 시도      │
+        작업 즉시 실행            │  ┌────성공────┐ ┌────실패────┐ │
+        (Core Thread)          │  │          │ │           │  │
+                               │  │ 큐에 저장  │ │현재 스레드   │  │
+                               │  │ 대기      │ │< maxPool? │  │
+                               │  └──────────┘ └───┬────┬──┘  │
                                │                   │    │     │
                                │                  YES   NO    │
                                │                   │    │     │
-                               │              새 스레드 │     │
-                               │              생성하여  │  RejectedExecution
-                               │              작업 실행 │  Handler 호출
+                               │              새 스레드   │     │
+                               │              생성하여    │  RejectedExecution
+                               │              작업 실행   │  Handler 호출
                                │              (Extra   │
                                │               Thread) │  4가지 정책:
                                │                       │  AbortPolicy (기본)
@@ -192,7 +192,7 @@ ThreadPoolExecutor:
   적합: I/O 바운드, 독립적 작업, 작업 크기 균일한 경우
 
   ┌──────────────────────────────────────────────┐
-  │              공유 작업 큐                     │
+  │              공유 작업 큐                       │
   │  [task1][task2][task3][task4][task5]...      │
   └──────┬───────────────────────────────────────┘
          │ 스레드들이 경쟁하며 꺼냄
@@ -372,21 +372,21 @@ public class ExecutorsRisk {
 ```
 Executors 팩토리 메서드별 내부 구성:
 
-팩토리 메서드                    | core | max           | 큐                    | 위험
+팩토리 메서드                     | core | max           | 큐                      | 위험
 ───────────────────────────────┼──────┼───────────────┼────────────────────────┼──────────
-newFixedThreadPool(n)           | n    | n             | LinkedBlockingQueue(∞) | OOM (큐 무한)
-newSingleThreadExecutor()       | 1    | 1             | LinkedBlockingQueue(∞) | OOM (큐 무한)
-newCachedThreadPool()           | 0    | Integer.MAX   | SynchronousQueue(0)   | 스레드 폭발
-newScheduledThreadPool(n)       | n    | Integer.MAX   | DelayedWorkQueue      | 스레드 폭발
+newFixedThreadPool(n)          | n    | n             | LinkedBlockingQueue(∞) | OOM (큐 무한)
+newSingleThreadExecutor()      | 1    | 1             | LinkedBlockingQueue(∞) | OOM (큐 무한)
+newCachedThreadPool()          | 0    | Integer.MAX   | SynchronousQueue(0)    | 스레드 폭발
+newScheduledThreadPool(n)      | n    | Integer.MAX   | DelayedWorkQueue       | 스레드 폭발
 
 RejectedExecutionHandler 정책별 특성:
 
-정책               | 예외 발생 | 작업 유실 | 생산 속도 억제 | 사용 권장
+정책               | 예외 발생   | 작업 유실 | 생산 속도 억제   | 사용 권장
 ──────────────────┼──────────┼──────────┼──────────────┼──────────────────
-AbortPolicy        | ✅        | 가능      | ❌            | 예외 처리 필수
-CallerRunsPolicy   | ❌        | ❌        | ✅            | 백프레셔 필요 시
-DiscardPolicy      | ❌        | ✅        | ❌            | 최신성이 중요할 때
-DiscardOldestPolicy| ❌        | ✅(오래된)| ❌            | 최근 작업 우선 시
+AbortPolicy       | ✅       | 가능      | ❌           | 예외 처리 필수
+CallerRunsPolicy  | ❌       | ❌       | ✅           | 백프레셔 필요 시
+DiscardPolicy     | ❌       | ✅       | ❌           | 최신성이 중요할 때
+DiscardOldestPolicy| ❌      | ✅(오래된) | ❌           | 최근 작업 우선 시
 ```
 
 ---

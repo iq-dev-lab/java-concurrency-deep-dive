@@ -363,17 +363,17 @@ public class VirtualThreadApiExplore {
 ```
 OS 스레드 vs Virtual Thread 비교:
 
-특성                   | OS 스레드           | Virtual Thread
+특성                   | OS 스레드            | Virtual Thread
 ──────────────────────┼────────────────────┼──────────────────────────
-스택 메모리            | ~1MB (고정, 조정 가능)| ~수 KB (힙, 동적 확장)
-생성 비용              | ~100μs (OS 시스템콜) | ~수 μs (힙 할당)
-컨텍스트 스위칭        | ~1~10μs (OS 스케줄러)| ~수 ns~μs (JVM 수준)
-최대 동시 스레드 수     | ~수천 개 (메모리 제한)| ~수백만 개 (힙 크기 제한)
-I/O 블로킹 시         | 캐리어(OS 스레드) 차지 | Unmount → 캐리어 해제
-스레드 덤프            | jstack 가능          | jstack 가능 (VT 포함)
-ThreadLocal            | 정상 사용 가능        | 주의 (100만 VT × 복사)
-디버깅                 | 스택 트레이스 직관적   | 동일 (동기 스타일)
-기존 코드 호환         | -                   | ✅ (대부분 그대로)
+스택 메모리              | ~1MB (고정, 조정 가능)| ~수 KB (힙, 동적 확장)
+생성 비용               | ~100μs (OS 시스템콜) | ~수 μs (힙 할당)
+컨텍스트 스위칭           | ~1~10μs (OS 스케줄러)| ~수 ns~μs (JVM 수준)
+최대 동시 스레드 수       | ~수천 개 (메모리 제한)  | ~수백만 개 (힙 크기 제한)
+I/O 블로킹 시           | 캐리어(OS 스레드) 차지 | Unmount → 캐리어 해제
+스레드 덤프              | jstack 가능         | jstack 가능 (VT 포함)
+ThreadLocal           | 정상 사용 가능        | 주의 (100만 VT × 복사)
+디버깅                 | 스택 트레이스 직관적    | 동일 (동기 스타일)
+기존 코드 호환           | -                  | ✅ (대부분 그대로)
 
 I/O 바운드 처리량 비교 (50ms I/O 요청):
   스레드 풀 200개: ~4,000 req/s (200 / 0.05s)
@@ -530,6 +530,6 @@ ExecutorService e = Executors.newVirtualThreadPerTaskExecutor();
 
 <div align="center">
 
-**[⬅️ 이전: Ch5 Exchanger와 Phaser](../concurrent-data-structures/05-exchanger-phaser.md)** | **[홈으로 🏠](../README.md)** | **[다음: Continuation과 스케줄링 ➡️](./02-continuation-scheduling.md)**
+**[홈으로 🏠](../README.md)** | **[다음: Continuation과 스케줄링 ➡️](./02-continuation-scheduling.md)**
 
 </div>
