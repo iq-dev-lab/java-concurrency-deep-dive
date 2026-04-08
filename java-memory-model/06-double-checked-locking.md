@@ -112,18 +112,18 @@ instance = new BrokenSingleton() 의 실제 3단계:
   → instance가 이미 참조를 가리키지만 생성자 실행 미완료
 
 ┌────────────────────────────────────────────────────────────────┐
-│  재정렬 발생 시 두 스레드의 타임라인:                            │
-│                                                               │
-│  Thread A (getInstance 호출):                                 │
-│    ① 힙에 메모리 할당 (BrokenSingleton 객체, 필드 모두 기본값)  │
-│    ③ instance = 참조  ← 재정렬로 ② 이전에 실행!               │
-│         ↕ (이 사이에 Thread B가 실행)                          │
-│    ② 생성자 실행 (필드 초기화 완료)                            │
-│                                                               │
-│  Thread B (getInstance 호출):                                 │
-│    if (instance == null) → instance != null!                 │
-│    return instance  ← 생성자가 완료 안 된 객체 반환!           │
-│                        필드 = 기본값 (0, null, false)         │
+│  재정렬 발생 시 두 스레드의 타임라인:                                  │
+│                                                                │
+│  Thread A (getInstance 호출):                                   │
+│    ① 힙에 메모리 할당 (BrokenSingleton 객체, 필드 모두 기본값)         │
+│    ③ instance = 참조  ← 재정렬로 ② 이전에 실행!                     │
+│         ↕ (이 사이에 Thread B가 실행)                              │
+│    ② 생성자 실행 (필드 초기화 완료)                                  │
+│                                                                │
+│  Thread B (getInstance 호출):                                   │
+│    if (instance == null) → instance != null!                   │
+│    return instance  ← 생성자가 완료 안 된 객체 반환!                  │
+│                        필드 = 기본값 (0, null, false)             │
 └────────────────────────────────────────────────────────────────┘
 
 이것이 "부분 초기화된 객체(Partially Constructed Object)" 문제
@@ -394,21 +394,21 @@ public class ObjectCreationTrace {
 ```
 싱글톤 패턴별 성능 비교 (8스레드, JMH 기준):
 
-패턴              | 처리량 (ops/ms) | 비고
+패턴              | 처리량 (ops/ms)  | 비고
 ─────────────────┼────────────────┼───────────────────────────────
 Eager (필드 접근)  | 1,000,000+     | 락/체크 없음, 가장 빠름
 Holder 패턴       | 900,000+       | 클래스 로딩 완료 후 락 없음
-volatile DCL      | 800,000+       | volatile 읽기 비용 (미미)
-synchronized      | 50,000~100,000 | 매 호출 synchronized 비용
-enum 싱글톤       | 900,000+       | 내부적으로 Eager와 동일
+volatile DCL     | 800,000+       | volatile 읽기 비용 (미미)
+synchronized     | 50,000~100,000 | 매 호출 synchronized 비용
+enum 싱글톤       | 900,000+        | 내부적으로 Eager와 동일
 
 초기화 후 동작 비교:
-패턴              | 초기화 후 비용         | 추가 동기화
+패턴              | 초기화 후 비용          | 추가 동기화
 ─────────────────┼──────────────────────┼──────────────────
-Eager             | 필드 읽기만           | 없음
-Holder            | 클래스 필드 읽기       | 없음
-volatile DCL      | volatile 읽기 1회     | 없음 (null 체크)
-synchronized      | synchronized 획득/해제 | 항상 발생
+Eager            | 필드 읽기만             | 없음
+Holder           | 클래스 필드 읽기         | 없음
+volatile DCL     | volatile 읽기 1회      | 없음 (null 체크)
+synchronized     | synchronized 획득/해제  | 항상 발생
 ```
 
 ---

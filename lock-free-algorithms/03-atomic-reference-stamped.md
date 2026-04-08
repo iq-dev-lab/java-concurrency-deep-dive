@@ -394,24 +394,24 @@ public class StackBenchmark {
 ```
 AtomicReference vs AtomicStampedReference 비교:
 
-특성                    | AtomicReference | AtomicStampedReference
+특성                    | AtomicReference| AtomicStampedReference
 ───────────────────────┼────────────────┼───────────────────────────
-ABA 방지                | ❌              | ✅ (stamp 불일치 감지)
-쓰기당 객체 생성         | ❌ (없음)       | ✅ (Pair 객체 1개)
-GC 압박                 | 낮음           | 중간 (쓰기 빈도에 비례)
-읽기 비용               | volatile 1회    | volatile 1회 (동일)
-쓰기 비용               | CAS 1회         | Pair 생성 + CAS
-코드 복잡성             | 낮음           | 중간 (int[] stamp 배열)
+ABA 방지                | ❌             | ✅ (stamp 불일치 감지)
+쓰기당 객체 생성           | ❌ (없음)       | ✅ (Pair 객체 1개)
+GC 압박                 | 낮음             | 중간 (쓰기 빈도에 비례)
+읽기 비용                | volatile 1회    | volatile 1회 (동일)
+쓰기 비용                | CAS 1회         | Pair 생성 + CAS
+코드 복잡성               | 낮음            | 중간 (int[] stamp 배열)
 
 사용 사례별 권장:
 
 상황                              | 권장
 ─────────────────────────────────┼───────────────────────────────────
-불변 설정 객체 교체                | AtomicReference (ABA 무관)
-Lock-Free 스택/큐 노드 포인터      | AtomicStampedReference
-ConcurrentSkipList 노드 삭제 마킹 | AtomicMarkableReference
-단순 참조 플래그                   | AtomicReference (재삽입 없으면)
-객체 풀 free list                 | AtomicStampedReference (재사용)
+불변 설정 객체 교체                  | AtomicReference (ABA 무관)
+Lock-Free 스택/큐 노드 포인터        | AtomicStampedReference
+ConcurrentSkipList 노드 삭제 마킹   | AtomicMarkableReference
+단순 참조 플래그                     | AtomicReference (재삽입 없으면)
+객체 풀 free list                  | AtomicStampedReference (재사용)
 ```
 
 ---

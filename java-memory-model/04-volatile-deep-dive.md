@@ -403,22 +403,22 @@ public class VolatileCostBenchmark {
 ```
 volatile vs 동기화 방법별 비용 (x86, 단일 스레드 접근 기준):
 
-방법               | 처리량 (ops/ms) | 비용 배율 | 비고
+방법               | 처리량 (ops/ms)  | 비용 배율  | 비고
 ──────────────────┼────────────────┼──────────┼────────────────────
 일반 int 읽기       | 500,000        | 1x        | L1 캐시 히트
 volatile int 읽기  | 490,000        | ~1x       | x86 추가 비용 거의 없음
 일반 int 쓰기       | 500,000        | 1x        | Store Buffer 활용
 volatile int 쓰기  | 10,000~50,000  | 10~50x    | StoreLoad 펜스
-AtomicInt CAS      | 30,000~80,000  | 6~17x     | LOCK CMPXCHG
-synchronized (무경합)| 20,000~60,000 | 8~25x     | Thin Lock
+AtomicInt CAS     | 30,000~80,000  | 6~17x     | LOCK CMPXCHG
+synchronized(무경합)| 20,000~60,000  | 8~25x     | Thin Lock
 
 경합 상황 (10 스레드):
-방법               | 처리량 (ops/ms) | 비교
+방법               | 처리량 (ops/ms)  | 비교
 ──────────────────┼────────────────┼─────────────────────
 volatile 쓰기      | 1,000~5,000    | Cache Invalidate 경쟁
-AtomicInt CAS      | 3,000~10,000   | CAS 실패 재시도 포함
-synchronized       | 1,000~5,000    | OS Mutex (경합 시)
-LongAdder          | 50,000~100,000 | Cell 분산으로 경합 회피
+AtomicInt CAS     | 3,000~10,000   | CAS 실패 재시도 포함
+synchronized      | 1,000~5,000    | OS Mutex (경합 시)
+LongAdder         | 50,000~100,000 | Cell 분산으로 경합 회피
 ```
 
 ---

@@ -419,17 +419,17 @@ public class AtomicMethodsBenchmark {
 ```
 AtomicInteger 메서드별 비용 (단일 스레드, x86):
 
-메서드                    | 어셈블리 명령어        | 비용 (사이클)
+메서드                     | 어셈블리 명령어          | 비용 (사이클)
 ─────────────────────────┼──────────────────────┼──────────────
 get()                    | MOV (volatile 읽기)   | ~4
 set(v)                   | MOV + LOCK ADDL (펜스)| ~100~300
 lazySet(v)               | MOV (StoreStore만)    | ~4~8
-getAndSet(v)             | LOCK XCHG             | ~20~40
-compareAndSet(exp, new)  | LOCK CMPXCHG          | ~20~40
-getAndIncrement()        | LOCK XADD             | ~20~40
-incrementAndGet()        | LOCK XADD + 1         | ~20~40
-updateAndGet(fn)         | CAS 루프               | ~20~40 (무경쟁)
-accumulateAndGet(x, fn)  | CAS 루프               | ~20~40 (무경쟁)
+getAndSet(v)             | LOCK XCHG            | ~20~40
+compareAndSet(exp, new)  | LOCK CMPXCHG         | ~20~40
+getAndIncrement()        | LOCK XADD            | ~20~40
+incrementAndGet()        | LOCK XADD + 1        | ~20~40
+updateAndGet(fn)         | CAS 루프              | ~20~40 (무경쟁)
+accumulateAndGet(x, fn)  | CAS 루프              | ~20~40 (무경쟁)
 
 VarHandle 오더 모드별 비용 (x86):
   plain:       ~4 사이클

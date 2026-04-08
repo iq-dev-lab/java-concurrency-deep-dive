@@ -366,15 +366,15 @@ public class AbaDemo {
 ```
 CAS vs synchronized 비용 (단일 변수 업데이트):
 
-스레드 수    | CAS (AtomicLong) | synchronized | LongAdder
+스레드 수    | CAS (AtomicLong) | synchronized| LongAdder
 ───────────┼──────────────────┼─────────────┼──────────────
-1           | ~25ns            | ~20ns        | ~20ns
-2           | ~30ns            | ~40ns        | ~22ns
-4           | ~50ns            | ~80ns        | ~23ns
-8           | ~100ns           | ~150ns       | ~24ns
-16          | ~300ns           | ~250ns       | ~25ns
-32          | ~800ns           | ~350ns       | ~26ns
-64          | ~2000ns          | ~400ns       | ~27ns
+1          | ~25ns            | ~20ns       | ~20ns
+2          | ~30ns            | ~40ns       | ~22ns
+4          | ~50ns            | ~80ns       | ~23ns
+8          | ~100ns           | ~150ns      | ~24ns
+16         | ~300ns           | ~250ns      | ~25ns
+32         | ~800ns           | ~350ns      | ~26ns
+64         | ~2000ns          | ~400ns      | ~27ns
 
 CAS: 경쟁 심화 → 재시도 폭증 → 처리량 급락
 synchronized: OS Mutex로 공정 대기 → 경쟁 수 증가에도 선형 저하
@@ -506,6 +506,6 @@ do {
 
 <div align="center">
 
-**[⬅️ 이전: Ch3 락 성능 비교](../lock-internals/07-lock-performance-benchmark.md)** | **[홈으로 🏠](../README.md)** | **[다음: AtomicInteger/VarHandle ➡️](./02-atomic-integer-varhandle.md)**
+**[홈으로 🏠](../README.md)** | **[다음: AtomicInteger/VarHandle ➡️](./02-atomic-integer-varhandle.md)**
 
 </div>

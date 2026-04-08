@@ -393,23 +393,23 @@ public class DeadlockAvoidance {
 ```
 ReentrantLock vs synchronized 기능/성능 비교:
 
-기능                     | synchronized | ReentrantLock
+기능                     | synchronized| ReentrantLock
 ────────────────────────┼─────────────┼─────────────────────────
-타임아웃 tryLock          | ❌           | ✅ tryLock(t, unit)
-인터럽트 가능 대기         | ❌           | ✅ lockInterruptibly()
-공정성 선택              | ❌ (항상 NF)  | ✅ new ReentrantLock(fair)
-다수 Condition           | ❌ (1개)      | ✅ newCondition() 여러 개
-락 상태 조회             | ❌           | ✅ isLocked(), getQueueLength()
-재진입                   | ✅           | ✅
-JIT Lock Elision         | ✅ 적극 적용  | 제한적
-코드 단순성              | ✅           | ❌ try-finally 필수
+타임아웃 tryLock          | ❌          | ✅ tryLock(t, unit)
+인터럽트 가능 대기          | ❌          | ✅ lockInterruptibly()
+공정성 선택                | ❌ (항상 NF) | ✅ new ReentrantLock(fair)
+다수 Condition           | ❌ (1개)     | ✅ newCondition() 여러 개
+락 상태 조회               | ❌          | ✅ isLocked(), getQueueLength()
+재진입                    | ✅          | ✅
+JIT Lock Elision        | ✅ 적극 적용  | 제한적
+코드 단순성                | ✅          | ❌ try-finally 필수
 
 성능 비교 (8스레드, JMH):
-                        | synchronized | ReentrantLock(NF) | ReentrantLock(F)
+                        | synchronized| ReentrantLock(NF) | ReentrantLock(F)
 ────────────────────────┼─────────────┼───────────────────┼──────────────────
-무경쟁 (1스레드)          | 100%        | ~95%              | ~90%
-약한 경쟁 (2~4스레드)     | 100%        | ~100~110%         | ~40~60%
-강한 경쟁 (8+스레드)      | 100%        | ~100~115%         | ~15~25%
+무경쟁 (1스레드)           | 100%        | ~95%              | ~90%
+약한 경쟁 (2~4스레드)       | 100%        | ~100~110%         | ~40~60%
+강한 경쟁 (8+스레드)        | 100%        | ~100~115%         | ~15~25%
 
 → 무경쟁: synchronized가 JIT Elision으로 가장 빠를 수 있음
 → 약한~강한 경쟁: 거의 비슷하거나 NF가 약간 유리

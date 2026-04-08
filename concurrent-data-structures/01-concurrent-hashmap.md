@@ -101,7 +101,7 @@ Java 7 ConcurrentHashMap 구조:
   ┌────────────────────────────────────────────────────┐
   │  segments[0] (ReentrantLock)                       │
   │    HashEntry[]: [0][1][2]...[n]                    │
-  │    각 버킷: 연결 리스트                               │
+  │    각 버킷: 연결 리스트                                │
   ├────────────────────────────────────────────────────┤
   │  segments[1] (ReentrantLock)                       │
   │    ...                                             │
@@ -140,9 +140,9 @@ Java 8 ConcurrentHashMap 구조:
   ┌────────────────────────────────────────────────────┐
   │  Node[] table                                      │
   │  [0]: null                                         │
-  │  [1]: [Node(k1,v1)] → [Node(k3,v3)] (연결 리스트)  │
+  │  [1]: [Node(k1,v1)] → [Node(k3,v3)] (연결 리스트)     │
   │  [2]: [TreeBin] → [TreeNode] (Red-Black Tree)      │
-  │  [3]: [ForwardingNode] (리사이징 중)               │
+  │  [3]: [ForwardingNode] (리사이징 중)                  │
   │  ...                                               │
   └────────────────────────────────────────────────────┘
 
@@ -365,14 +365,14 @@ public class TreeBinObserver {
 ```
 Java 7 vs Java 8 ConcurrentHashMap 비교:
 
-특성              | Java 7 (Segment Lock)  | Java 8 (Bucket Lock)
+특성             | Java 7 (Segment Lock)  | Java 8 (Bucket Lock)
 ────────────────┼────────────────────────┼──────────────────────────
-동시성 수준        | Segment 수 (기본 16)   | 버킷 수 (capacity)
-빈 버킷 삽입       | Segment 락 필요        | CAS (락 없음!)
-읽기              | 락 없음 (volatile)     | 락 없음 (volatile)
-쓰기 동시성        | 최대 16개              | 최대 버킷 수 (수천~수만)
-연결 리스트 최악   | O(N) (해시 충돌 시)    | O(log N) (TreeBin)
-메모리             | Segment 16개 오버헤드  | 더 가벼움
+동시성 수준        | Segment 수 (기본 16)    | 버킷 수 (capacity)
+빈 버킷 삽입       | Segment 락 필요         | CAS (락 없음!)
+읽기             | 락 없음 (volatile)      | 락 없음 (volatile)
+쓰기 동시성        | 최대 16개               | 최대 버킷 수 (수천~수만)
+연결 리스트 최악    | O(N) (해시 충돌 시)      | O(log N) (TreeBin)
+메모리            | Segment 16개 오버헤드    | 더 가벼움
 
 읽기 집약 워크로드 (8스레드, JMH):
   Java 7 CHM: ~2,000,000 ops/ms
@@ -507,6 +507,6 @@ Java 8: 버킷 레벨 synchronized + CAS + TreeBin
 
 <div align="center">
 
-**[⬅️ 이전: Ch4 VarHandle 메모리 오더링](../lock-free-algorithms/06-varhandle-memory-ordering.md)** | **[홈으로 🏠](../README.md)** | **[다음: CopyOnWriteArrayList ➡️](./02-copy-on-write-arraylist.md)**
+**[홈으로 🏠](../README.md)** | **[다음: CopyOnWriteArrayList ➡️](./02-copy-on-write-arraylist.md)**
 
 </div>

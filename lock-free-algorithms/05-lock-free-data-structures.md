@@ -304,17 +304,17 @@ public class ClqInternals {
 ```
 Queue 종류별 특성 비교:
 
-특성                     | ConcurrentLinkedQueue | ArrayBlockingQueue | LinkedBlockingQueue
+특성                     | ConcurrentLinkedQueue| ArrayBlockingQueue | LinkedBlockingQueue
 ────────────────────────┼──────────────────────┼────────────────────┼───────────────────
-알고리즘                 | Lock-Free (M-S Queue)  | 단일 ReentrantLock  | head/tail 분리 락
-용량                    | 무한 (힙 한계)          | 고정 (생성 시 설정)  | 선택적 (무제한 기본)
-큐 빌 때 소비자         | null 반환 (non-blocking)| park (blocking)    | park (blocking)
-큐 가득 찰 때 생산자     | 불가 (무한 용량)        | park (blocking)    | park (무한 시 없음)
-size()                  | O(N)                   | O(1)               | O(1)
-peek()                  | O(1)                   | O(1)               | O(1)
-iterator 일관성         | Weakly consistent      | Weakly consistent  | Weakly consistent
-CPU 효율 (큐 빌 때)     | 나쁨 (busy-wait 위험)  | 좋음 (park)        | 좋음 (park)
-처리량 (경쟁 없음)       | 높음                  | 높음               | 높음
+알고리즘                  | Lock-Free (M-S Queue)| 단일 ReentrantLock  | head/tail 분리 락
+용량                     | 무한 (힙 한계)          | 고정 (생성 시 설정)    | 선택적 (무제한 기본)
+큐 빌 때 소비자            | null 반환 (non-blocking)| park (blocking)  | park (blocking)
+큐 가득 찰 때 생산자        | 불가 (무한 용량)         | park (blocking)    | park (무한 시 없음)
+size()                  | O(N)                 | O(1)               | O(1)
+peek()                  | O(1)                 | O(1)               | O(1)
+iterator 일관성          | Weakly consistent     | Weakly consistent  | Weakly consistent
+CPU 효율 (큐 빌 때)       | 나쁨 (busy-wait 위험)   | 좋음 (park)         | 좋음 (park)
+처리량 (경쟁 없음)         | 높음                   | 높음                | 높음
 
 적합한 사용 사례:
   ConcurrentLinkedQueue: 소비자가 다른 작업도 하는 이벤트 버퍼

@@ -133,13 +133,13 @@ Object.notifyAll():
   → 모두가 락 획득 경쟁 참여
 
 ┌──────────────────────────────────────────────────┐
-│         Object obj 의 모니터                      │
+│         Object obj 의 모니터                       │
 │                                                  │
 │  [Entry Set]          [Wait Set]                 │
 │  Thread B (락 대기)    Thread C (wait 중)          │
 │  Thread D (락 대기)    Thread E (wait 중)          │
 │                                                  │
-│  현재 락 소유: Thread A                            │
+│  현재 락 소유: Thread A                             │
 └──────────────────────────────────────────────────┘
   notify() → Wait Set의 하나(C 또는 E) → Entry Set 이동
   notifyAll() → C, E 모두 → Entry Set 이동
@@ -164,12 +164,12 @@ Condition.await() 동작:
 
 Object.wait() vs Condition.await():
 
-비교 항목          | Object.wait()         | Condition.await()
+비교 항목           | Object.wait()        | Condition.await()
 ──────────────────┼──────────────────────┼──────────────────────────
 연결 락            | synchronized (Object) | ReentrantLock
-하나의 객체에 조건 수 | 1개 (모니터 Wait Set)  | 여러 개 (newCondition)
-타임아웃            | wait(ms)              | await(ms, unit)
-인터럽트 처리       | InterruptedException  | awaitUninterruptibly() 지원
+하나의 객체에 조건 수  | 1개 (모니터 Wait Set)  | 여러 개 (newCondition)
+타임아웃            | wait(ms)             | await(ms, unit)
+인터럽트 처리        | InterruptedException | awaitUninterruptibly() 지원
 Spurious Wakeup   | 발생 가능              | 발생 가능 (while 루프 필요)
 
 예시: 생산자/소비자에서 notify 대상 선택 불가 문제
@@ -431,12 +431,12 @@ public class ConditionBenchmark {
 ```
 notify() vs notifyAll() vs Condition.signal():
 
-방법              | 깨우는 대상      | 비용   | 불필요한 CS  | 권장 상황
+방법              | 깨우는 대상       | 비용   | 불필요한 CS  | 권장 상황
 ─────────────────┼────────────────┼───────┼────────────┼──────────────────
-notify()          | Wait Set 임의 1 | 낮음  | 없음        | 단일 조건, 동질 대기자
-notifyAll()       | Wait Set 전부   | 높음  | 많음        | 이기종 대기자 (안전)
+notify()         | Wait Set 임의 1 | 낮음   | 없음        | 단일 조건, 동질 대기자
+notifyAll()      | Wait Set 전부   | 높음   | 많음        | 이기종 대기자 (안전)
 Condition.signal()| Condition 큐 1개| 낮음  | 없음        | 다중 조건 분리
-Condition.signalAll()| Condition 큐 전부| 중간| 있음        | 단일 Condition의 안전
+Condition.signalAll()| Condition 큐 전부| 중간| 있음       | 단일 Condition의 안전
 
 notify() 사용 시 주의:
   Wait Set에 동질 대기자(같은 조건을 기다리는 스레드)만 있을 때 안전

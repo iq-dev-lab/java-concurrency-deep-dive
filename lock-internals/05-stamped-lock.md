@@ -125,14 +125,14 @@ class Point {
 StampedLock 내부 상태 (long state, 64비트):
 
   ┌──────────────────────────────────────────────────────────────┐
-  │  64비트 state                                                │
-  │                                                             │
-  │  bit 7 (WBIT):  쓰기 락 비트 (0=없음, 1=쓰기 중)             │
-  │  bit 0~6:       읽기 락 카운트 (0~126, 126 이상은 overflow)   │
-  │  bit 8~63:      버전(version) 카운터                          │
-  │                                                             │
-  │  쓰기 락 획득 시: version 카운터 증가 + WBIT 설정              │
-  │  쓰기 락 해제 시: WBIT 제거 + version 카운터 다시 증가          │
+  │  64비트 state                                                 │
+  │                                                              │
+  │  bit 7 (WBIT):  쓰기 락 비트 (0=없음, 1=쓰기 중)                   │
+  │  bit 0~6:       읽기 락 카운트 (0~126, 126 이상은 overflow)       │
+  │  bit 8~63:      버전(version) 카운터                            │
+  │                                                              │
+  │  쓰기 락 획득 시: version 카운터 증가 + WBIT 설정                   │
+  │  쓰기 락 해제 시: WBIT 제거 + version 카운터 다시 증가               │
   └──────────────────────────────────────────────────────────────┘
 
 stamp 값의 의미:
@@ -402,13 +402,13 @@ public class ReentrantDeadlockDemo {
 ```
 락 방법별 읽기 성능 (8스레드, 쓰기 없음):
 
-방법                          | 처리량 (ops/ms) | 특징
+방법                          | 처리량 (ops/ms)  | 특징
 ─────────────────────────────┼────────────────┼──────────────────────────
-StampedLock 낙관적 읽기        | 2,000,000+     | 락 없음, 검증만
-StampedLock 비관적 읽기        | 400,000        | AQS 방식 읽기 락
+StampedLock 낙관적 읽기         | 2,000,000+     | 락 없음, 검증만
+StampedLock 비관적 읽기         | 400,000        | AQS 방식 읽기 락
 ReentrantReadWriteLock 읽기   | 350,000        | ThreadLocal 오버헤드 있음
-ReentrantLock                 | 100,000        | 배타적 락
-synchronized                  | 100,000        | 배타적 락
+ReentrantLock                | 100,000        | 배타적 락
+synchronized                 | 100,000        | 배타적 락
 
 쓰기 빈도에 따른 낙관적 읽기 실패율:
 쓰기 빈도   | 실패율     | 결과

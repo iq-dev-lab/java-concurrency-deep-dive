@@ -340,17 +340,17 @@ public class TimeSeriesStore {
 ```
 자료구조별 특성 비교 (정렬 맵):
 
-특성                    | TreeMap       | Collections.sync(TreeMap) | ConcurrentSkipListMap
+특성                    | TreeMap       | Collections.sync(TreeMap)| ConcurrentSkipListMap
 ───────────────────────┼───────────────┼──────────────────────────┼──────────────────────
-스레드 안전성           | ❌            | ✅ (전체 락)              | ✅ (Lock-Free)
-단일 스레드 성능        | 빠름          | 동일                     | ~20% 느림
-멀티스레드 확장성       | N/A           | 없음 (직렬화)             | 선형 확장
-읽기 동시성            | N/A           | ❌ (읽기도 락)            | ✅ (락 없음)
-메모리 사용            | 낮음          | 동일                     | 더 높음 (레이어 인덱스)
-정렬 순서 보장         | ✅            | ✅                       | ✅
-범위 뷰 (subMap 등)    | 동적 뷰 반환   | 동기화 필요              | 동시성 안전 동적 뷰
-first/last/floor/ceiling| ✅           | 락 필요                  | ✅ (락 없음)
-복잡도 (search/insert) | O(log N)      | O(log N) + 락            | O(log N) 기댓값
+스레드 안전성             | ❌            | ✅ (전체 락)              | ✅ (Lock-Free)
+단일 스레드 성능          | 빠름            | 동일                      | ~20% 느림
+멀티스레드 확장성          | N/A           | 없음 (직렬화)               | 선형 확장
+읽기 동시성              | N/A           | ❌ (읽기도 락)              | ✅ (락 없음)
+메모리 사용              | 낮음           | 동일                       | 더 높음 (레이어 인덱스)
+정렬 순서 보장           | ✅            | ✅                        | ✅
+범위 뷰 (subMap 등)     | 동적 뷰 반환     | 동기화 필요                  | 동시성 안전 동적 뷰
+first/last/floor/ceiling| ✅          | 락 필요                     | ✅ (락 없음)
+복잡도 (search/insert) | O(log N)       | O(log N) + 락              | O(log N) 기댓값
 ```
 
 ---

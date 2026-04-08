@@ -95,13 +95,13 @@ AtomicLong.incrementAndGet() 내부:
 
 고경쟁 환경에서:
   ┌─────────────────────────────────────────────────────────────┐
-  │  단일 캐시 라인 (64바이트, AtomicLong의 value 포함)           │
+  │  단일 캐시 라인 (64바이트, AtomicLong의 value 포함)                │
   │                                                             │
-  │  Thread T1 ──→ LOCK XADD ──→ 성공                           │
-  │  Thread T2 ──→ LOCK XADD ──→ 대기 (T1이 캐시 라인 독점)      │
-  │  Thread T3 ──→ LOCK XADD ──→ 대기                           │
+  │  Thread T1 ──→ LOCK XADD ──→ 성공                            │
+  │  Thread T2 ──→ LOCK XADD ──→ 대기 (T1이 캐시 라인 독점)          │
+  │  Thread T3 ──→ LOCK XADD ──→ 대기                            │
   │  ...                                                        │
-  │  Thread T32 ─→ LOCK XADD ──→ 대기                           │
+  │  Thread T32 ─→ LOCK XADD ──→ 대기                            │
   └─────────────────────────────────────────────────────────────┘
 
 결과:
@@ -153,11 +153,11 @@ increment() / add(x) 동작 흐름:
 
 최종 아키텍처:
   ┌─────────────────────────────────────────────────────────────┐
-  │  Thread T1 ──→ Cell[0] (CAS 경쟁 없음!)                     │
-  │  Thread T2 ──→ Cell[1] (CAS 경쟁 없음!)                     │
-  │  Thread T3 ──→ Cell[2] (CAS 경쟁 없음!)                     │
-  │  Thread T4 ──→ Cell[3] (CAS 경쟁 없음!)                     │
-  │  ...         각 Cell: 독립 캐시 라인 (@Contended 패딩)       │
+  │  Thread T1 ──→ Cell[0] (CAS 경쟁 없음!)                       │
+  │  Thread T2 ──→ Cell[1] (CAS 경쟁 없음!)                       │
+  │  Thread T3 ──→ Cell[2] (CAS 경쟁 없음!)                       │
+  │  Thread T4 ──→ Cell[3] (CAS 경쟁 없음!)                       │
+  │  ...         각 Cell: 독립 캐시 라인 (@Contended 패딩)           │
   └─────────────────────────────────────────────────────────────┘
   sum() = base + Cell[0].value + Cell[1].value + ... + Cell[n].value
 ```
@@ -369,14 +369,14 @@ public class MaxTracker {
 ```
 스레드 수별 처리량 비교 (JMH, increment/ms):
 
-스레드 수    | AtomicLong   | LongAdder   | 비율 (Adder/Atomic)
+스레드 수    | AtomicLong  | LongAdder   | 비율 (Adder/Atomic)
 ───────────┼─────────────┼─────────────┼─────────────────────
-1           | 500,000     | 450,000     | 0.9x (약간 느림)
-2           | 350,000     | 490,000     | 1.4x
-4           | 200,000     | 520,000     | 2.6x
-8           | 100,000     | 530,000     | 5.3x
-16          | 50,000      | 540,000     | 10.8x
-32          | 25,000      | 545,000     | 21.8x
+1          | 500,000     | 450,000     | 0.9x (약간 느림)
+2          | 350,000     | 490,000     | 1.4x
+4          | 200,000     | 520,000     | 2.6x
+8          | 100,000     | 530,000     | 5.3x
+16         | 50,000      | 540,000     | 10.8x
+32         | 25,000      | 545,000     | 21.8x
 
 → 경쟁이 없으면 AtomicLong이 약간 빠름 (Cell 배열 탐색 오버헤드)
 → 경쟁이 심해질수록 LongAdder 이점 폭발적으로 증가

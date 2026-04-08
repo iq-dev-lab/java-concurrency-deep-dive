@@ -357,23 +357,23 @@ public class LatchHappensBefore {
 ```
 happens-before 확립 방법별 비용 비교:
 
-방법              | happens-before 범위    | 비용   | 비고
+방법              | happens-before 범위     | 비용   | 비고
 ─────────────────┼────────────────────────┼───────┼──────────────────────
-volatile 쓰기     | 이전 모든 쓰기 → 이후 읽기 | 중간   | StoreLoad 펜스
-volatile 읽기     | 이전 읽기 → 이후 쓰기    | 낮음   | x86에서 거의 무료
-synchronized 획득 | 이전 unlock → 이후 모든  | 중간~높음| 경합 시 OS Mutex
-synchronized 해제 | 이전 모든 → 이후 lock    | 중간   |
-Thread.start()   | 이전 모든 → 새 스레드    | 높음   | OS 스레드 생성
-Thread.join()    | 스레드 모든 → join 이후  | 중간   | 스레드 대기
+volatile 쓰기     | 이전 모든 쓰기 → 이후 읽기   | 중간   | StoreLoad 펜스
+volatile 읽기     | 이전 읽기 → 이후 쓰기       | 낮음   | x86에서 거의 무료
+synchronized 획득 | 이전 unlock → 이후 모든    | 중간~높음| 경합 시 OS Mutex
+synchronized 해제 | 이전 모든 → 이후 lock      | 중간   |
+Thread.start()   | 이전 모든 → 새 스레드       | 높음   | OS 스레드 생성
+Thread.join()    | 스레드 모든 → join 이후    | 중간   | 스레드 대기
 
 규칙별 적용 빈도 (실무):
 
-규칙              | 빈도   | 주 용도
+규칙              | 빈도    | 주 용도
 ─────────────────┼────────┼──────────────────────────────────
-프로그램 순서      | 항상   | 같은 스레드 내 순서 보장
-volatile 규칙     | 자주   | 상태 플래그, 초기화 완료 신호
-모니터 락 규칙    | 매우 자주| synchronized 블록의 가시성
-스레드 시작/종료  | 자주   | 스레드 간 데이터 전달
+프로그램 순서       | 항상    | 같은 스레드 내 순서 보장
+volatile 규칙     | 자주    | 상태 플래그, 초기화 완료 신호
+모니터 락 규칙      | 매우 자주| synchronized 블록의 가시성
+스레드 시작/종료    | 자주     | 스레드 간 데이터 전달
 ```
 
 ---

@@ -446,15 +446,15 @@ public class DynamicPhaserDemo {
 ```
 동기화 도구 선택 비교:
 
-특성                   | CountDownLatch | CyclicBarrier | Phaser
+특성                   | CountDownLatch| CyclicBarrier | Phaser
 ──────────────────────┼───────────────┼───────────────┼─────────────────────
-참가자 수              | 고정 (생성 시) | 고정 (생성 시) | 동적 (register/deregister)
-재사용성               | ❌ (1회)       | ✅ (반복)      | ✅ (무한 단계)
-단계 수                | 1              | 반복 가능     | 무한 (phase 카운터)
-단계별 커스텀 로직      | ❌            | ✅ (barrierAction)| ✅ (onAdvance 오버라이드)
-일부 참가자 예외 시     | 대기 유지      | Broken 상태   | 해당 참가자만 제거 가능
-대규모 참가자 확장성    | 보통           | 보통          | ✅ (계층적 Phaser)
-내부 구현              | AQS 공유락    | ReentrantLock + Condition | CAS on long state
+참가자 수               | 고정 (생성 시)   | 고정 (생성 시)   | 동적 (register/deregister)
+재사용성                | ❌ (1회)       | ✅ (반복)      | ✅ (무한 단계)
+단계 수                | 1              | 반복 가능       | 무한 (phase 카운터)
+단계별 커스텀 로직        | ❌            | ✅ (barrierAction)| ✅ (onAdvance 오버라이드)
+일부 참가자 예외 시       | 대기 유지        | Broken 상태    | 해당 참가자만 제거 가능
+대규모 참가자 확장성      | 보통            | 보통            | ✅ (계층적 Phaser)
+내부 구현              | AQS 공유락       | ReentrantLock + Condition | CAS on long state
 
 Exchanger 특성:
   정확히 2개 스레드만 지원
@@ -617,6 +617,6 @@ Phaser phaser = new Phaser(N) {
 
 <div align="center">
 
-**[⬅️ 이전: ConcurrentSkipListMap](./04-concurrent-skip-list-map.md)** | **[홈으로 🏠](../README.md)** | **[다음: Chapter 6 — Virtual Thread와 Continuation ➡️](../virtual-threads/01-virtual-thread-continuation.md)**
+**[⬅️ 이전: ConcurrentSkipListMap](./04-concurrent-skip-list-map.md)** | **[홈으로 🏠](../README.md)** | **[다음: Chapter 6 — Virtual Thread와 Continuation ➡️](../virtual-threads/01-why-virtual-thread.md)**
 
 </div>

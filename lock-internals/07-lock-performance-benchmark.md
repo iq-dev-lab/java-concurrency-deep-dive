@@ -525,6 +525,6 @@ public class LockBench {
 
 <div align="center">
 
-**[⬅️ 이전: 조건 변수](./06-condition-variables.md)** | **[홈으로 🏠](../README.md)** | **[다음: Chapter 4 — CAS와 LOCK CMPXCHG ➡️](../lock-free-algorithms/01-cas-lock-cmpxchg.md)**
+**[⬅️ 이전: 조건 변수](./06-condition-variables.md)** | **[홈으로 🏠](../README.md)** | **[다음: Chapter 4 — CAS와 LOCK CMPXCHG ➡️](../lock-free-algorithms/01-cas-cpu-level.md)**
 
 </div>

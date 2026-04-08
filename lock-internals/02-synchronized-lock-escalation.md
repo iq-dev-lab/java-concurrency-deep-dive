@@ -77,20 +77,20 @@ JIT 최적화를 활용:
 synchronized (obj) { ... } 실행 시 JVM 내부 경로:
 
   ┌──────────────────────────────────────────────────────────────┐
-  │  monitorenter 바이트코드 실행                                  │
+  │  monitorenter 바이트코드 실행                                    │
   └───────────────────────────────────┬──────────────────────────┘
                                       │
                 Mark Word 하위 3비트 확인
-                ┌──────────────────┬──────────────────┐
-                │ 101 (Biased)      │ 01 (Normal/Bias가능)│ 00/10 (Thin/Fat)
-                ▼                  ▼                  ▼
-         [바이어스 락 처리]    [신규 진입]         [상태별 처리]
+                ┌──────────────────┬────────────────────┐
+                │ 101 (Biased)     │ 01 (Normal/Bias가능)│ 00/10 (Thin/Fat)
+                ▼                  ▼                    ▼
+         [바이어스 락 처리]        [신규 진입]            [상태별 처리]
               │                   │
               │ thread_id = 나?    │ CAS로 Thin Lock 시도
-              ├─YES→ 즉시 진입     │
+              ├─YES→ 즉시 진입       │
               └─NO→ Revocation    │ 성공 → Thin Lock 보유
-                   Thin Lock으로  │ 실패 (경쟁) → 스핀
-                   전환           │ 스핀 한계 → Fat Lock
+                   Thin Lock으로   │ 실패 (경쟁) → 스핀
+                   전환            │ 스핀 한계 → Fat Lock
 
 Fat Lock 확장 과정:
   ① ObjectMonitor 생성 (힙 외부, Native 메모리)
@@ -289,14 +289,14 @@ java -XX:+UnlockDiagnosticVMOptions FatLockDemo
 ```
 락 단계별 비용 (x86, JDK 21 기준):
 
-단계          | 조건          | 주요 연산           | 비용
-────────────┼──────────────┼────────────────────┼─────────────────
+단계          | 조건          | 주요 연산            | 비용
+─────────────┼──────────────┼────────────────────┼─────────────────
 Thin Lock 획득| 무경쟁         | CAS 1회            | ~10~30 ns
 Thin Lock 해제| 무경쟁         | CAS 1회            | ~10~30 ns
-Thin Lock 경합| 약한 경쟁      | CAS 실패 + 스핀     | ~100~500 ns
+Thin Lock 경합| 약한 경쟁      | CAS 실패 + 스핀      | ~100~500 ns
 Fat Lock 획득 | 경합 없음(첫 번)| OS Mutex + wake    | ~1~3 μs
-Fat Lock 대기 | 경쟁 중         | 컨텍스트 스위칭      | ~5~50 μs
-Fat Lock 해제 | 대기자 있음     | unpark + 스케줄링   | ~3~10 μs
+Fat Lock 대기 | 경쟁 중        | 컨텍스트 스위칭       | ~5~50 μs
+Fat Lock 해제 | 대기자 있음     | unpark + 스케줄링    | ~3~10 μs
 
 Lock Elision 효과:
   synchronized (localObj) { ... }

@@ -297,13 +297,13 @@ CopyOnWriteArrayList vs 동기화된 대안 비교:
 
 특성                  | COWAL             | Collections.synchronizedList | ArrayList + ReadWriteLock
 ─────────────────────┼───────────────────┼──────────────────────────────┼───────────────────────────
-읽기 락              | 없음 (락 free)     | 있음 (synchronized)           | ReadLock
-쓰기 락              | ReentrantLock      | synchronized                  | WriteLock
-읽기 처리량           | 매우 높음          | 제한적 (읽기 직렬화)            | 높음 (읽기 병렬)
-쓰기 비용             | O(N) 복사          | O(1) + 동기화                 | O(1) + WriteLock
-iterator 일관성      | 완전 스냅샷         | ConcurrentModificationException| 읽기 락 필요
-쓰기 < 1% 비율       | ✅ 최적            | 보통                          | 보통
-쓰기 > 10% 비율      | ❌ 부적합          | 보통                          | 적합
+읽기 락                | 없음 (락 free)     | 있음 (synchronized)           | ReadLock
+쓰기 락                | ReentrantLock    | synchronized                 | WriteLock
+읽기 처리량             | 매우 높음           | 제한적 (읽기 직렬화)             | 높음 (읽기 병렬)
+쓰기 비용              | O(N) 복사          | O(1) + 동기화                  | O(1) + WriteLock
+iterator 일관성        | 완전 스냅샷         | ConcurrentModificationException| 읽기 락 필요
+쓰기 < 1% 비율         | ✅ 최적            | 보통                           | 보통
+쓰기 > 10% 비율        | ❌ 부적합          | 보통                           | 적합
 ```
 
 ---
