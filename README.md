@@ -424,6 +424,6 @@ Made with ❤️ by [Dev Book Lab](https://github.com/dev-book-lab)
 
 <br/>
 
-*"synchronized를 쓰는 것과, JVM이 Object Header의 Mark Word를 어떻게 바꾸며 락을 확장하는지 아는 것은 다르다"*
+**"synchronized를 쓰는 것과, JVM이 Object Header의 Mark Word를 어떻게 바꾸며 락을 확장하는지 아는 것은 다르다"**
 
 </div>
